@@ -504,7 +504,7 @@ func (stmt *Statement) GetField(field_index int) (v interface{}, ftype int, flen
 		} else {
 			v = int64(value)
 		}
-	case C.SQL_FLOAT, C.SQL_REAL, C.SQL_DOUBLE:
+	case C.SQL_FLOAT, C.SQL_REAL, C.SQL_DOUBLE, C.SQL_DECIMAL:  //kxx debug
 		var value C.double
 		ret = C.SQLGetData(C.SQLHSTMT(stmt.handle), C.SQLUSMALLINT(field_index+1), C.SQL_C_DOUBLE, C.SQLPOINTER(unsafe.Pointer(&value)), 0, &fl)
 		if fl == -1 {
