@@ -513,6 +513,10 @@ func (stmt *Statement) GetField(field_index int) (v interface{}, ftype int, flen
 			v = float64(value)
 		}
 	case C.SQL_CHAR, C.SQL_VARCHAR, C.SQL_LONGVARCHAR, C.SQL_WCHAR, C.SQL_WVARCHAR, C.SQL_WLONGVARCHAR:
+		//kxx @todo
+		if field_len > 100000 {
+			field_len = 100000
+		}
 		value := make([]uint16, int(field_len)+8)
 		ret = C.SQLGetData(C.SQLHSTMT(stmt.handle), C.SQLUSMALLINT(field_index+1), C.SQL_C_WCHAR, C.SQLPOINTER(unsafe.Pointer(&value[0])), field_len+4, &fl)
 		s := UTF16ToString(value)
